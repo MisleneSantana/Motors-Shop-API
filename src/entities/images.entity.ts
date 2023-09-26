@@ -7,10 +7,7 @@ class Image {
   id: number;
 
   @Column({ type: 'varchar', length: '280' })
-  cover_image_url: string;
-
-  @Column({ type: 'varchar', length: '280' })
-  gallery_image_url: string;
+  image_url: string;
 
   // Relacionamento N:1 com announcement (FK da relação):
   @ManyToOne(() => Announcement, (announcement) => announcement.image)

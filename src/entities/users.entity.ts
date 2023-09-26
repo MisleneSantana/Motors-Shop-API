@@ -15,7 +15,7 @@ class User {
   @Column({ type: 'varchar', length: 45, unique: true })
   email: string;
 
-  @Column({ type: 'integer', length: 11 })
+  @Column({ type: 'integer' })
   cpf: number;
 
   @Column({ type: 'integer', unique: true })
@@ -27,7 +27,7 @@ class User {
   @Column({ type: 'text', nullable: true })
   description: string | undefined | null;
 
-  @Column({ type: 'varchar', length: '15', default: 'Seller' })
+  @Column({ type: 'varchar', length: '15', enum: 'Seller, Buyer', default: 'Seller' })
   account_type: string;
 
   @Column({ type: 'varchar', length: 120 })

@@ -14,13 +14,13 @@ class Announcement {
   @Column({ type: 'varchar', length: '20' })
   model: string;
 
-  @Column({ type: 'integer', length: '4' })
+  @Column({ type: 'integer' })
   year: number;
 
   @Column({ type: 'varchar', length: '15' })
   fuel: string;
 
-  @Column({ type: 'integer', length: '6' })
+  @Column({ type: 'integer' })
   mileage: number;
 
   @Column({ type: 'varchar', length: '15' })
