@@ -1,9 +1,9 @@
-import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import User from './users.entity';
 
 @Entity('address')
 class Address {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'varchar', length: 8 })
@@ -18,12 +18,14 @@ class Address {
   @Column({ type: 'varchar', length: 45 })
   street: string;
 
-  @Column({ type: 'varchar', length: 25, nullable: true })
-  complement: string | undefined | null;
+  @Column({ type: 'varchar', length: 7 })
+  number: string;
 
-  // Relacionamento 1:1 com users(contém a FK):
+  @Column({ type: 'varchar', length: 25, nullable: true })
+  complement?: string | undefined | null;
+
+  // Relacionamento 1:1 com users - bidirectional:
   @OneToOne(() => User, (user) => user.address)
-  @JoinColumn()
   user: User;
 }
 

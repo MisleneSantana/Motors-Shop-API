@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
 export const imageSchema = z.object({
-  id: z.number().int().positive(),
+  id: z.string(),
   image_url: z.string().max(280),
 });

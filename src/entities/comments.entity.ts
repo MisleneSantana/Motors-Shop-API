@@ -5,24 +5,24 @@ import Announcement from './announcements.entity';
 // Pivot:
 @Entity('comments')
 class Comment {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'text', nullable: true })
-  comment: string | undefined | null;
+  comment?: string | undefined | null;
 
-  @CreateDateColumn({ type: 'time' })
+  @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
 
-  @UpdateDateColumn({ type: 'time' })
+  @UpdateDateColumn({ type: 'timestamp' })
   updatedAt: string;
 
   // Relacionamento N:1 com user (FK da relação):
-  @ManyToOne(() => User, (user) => user.comment)
+  @ManyToOne(() => User, (user) => user.comments)
   user: User;
 
   // Relacionamento N:1 com announcement (FK da relação):
-  @ManyToOne(() => Announcement, (announcement) => announcement.comment)
+  @ManyToOne(() => Announcement, (announcement) => announcement.comments)
   announcement: Announcement;
 }
 

@@ -1,12 +1,21 @@
 import { getRounds, hashSync } from 'bcryptjs';
-import { BeforeInsert, BeforeUpdate, Column, Entity, OneToMany, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  BeforeInsert,
+  BeforeUpdate,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import Address from './address.entity';
 import Announcement from './announcements.entity';
 import Comment from './comments.entity';
 
 @Entity('users')
 class User {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'varchar', length: 50 })
@@ -15,35 +24,36 @@ class User {
   @Column({ type: 'varchar', length: 45, unique: true })
   email: string;
 
-  @Column({ type: 'integer' })
-  cpf: number;
+  @Column({ type: 'varchar', length: '11', unique: true })
+  cpf: string;
 
-  @Column({ type: 'integer', unique: true })
-  phone_number: number;
+  @Column({ type: 'varchar', length: '12'})
+  phone_number: string;
 
   @Column({ type: 'date' })
   birth_date: string;
 
   @Column({ type: 'text', nullable: true })
-  description: string | undefined | null;
+  description?: string | undefined | null;
 
-  @Column({ type: 'varchar', length: '15', enum: 'Seller, Buyer', default: 'Seller' })
+  @Column({ type: 'varchar', length: '15' })
   account_type: string;
 
   @Column({ type: 'varchar', length: 120 })
   password: string;
 
-  // Relacionamento 1:1 com address:
+  // Relacionamento 1:1 com address (contém a FK):
   @OneToOne(() => Address, (address) => address.user)
+  @JoinColumn()
   address: Address;
 
   // Relacionamento 1:N com announcement:
   @OneToMany(() => Announcement, (announcement) => announcement.user)
-  announcement: Array<Announcement>;
+  announcements: Array<Announcement>;
 
   // Relacionamento 1:N com comments:
   @OneToMany(() => Comment, (comment) => comment.user)
-  comment: Comment;
+  comments: Array<Comment>;
 
   @BeforeInsert()
   @BeforeUpdate()

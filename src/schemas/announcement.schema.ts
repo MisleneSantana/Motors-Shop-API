@@ -2,7 +2,7 @@ import { z } from 'zod';
 import { userSchema } from './user.schema';
 
 export const announcementSchema = z.object({
-  id: z.number().int().positive(),
+  id: z.string(),
   brand: z.string().max(15),
   model: z.string().max(20),
   year: z.number().int().positive().max(4),
@@ -19,12 +19,13 @@ export const announcementSchema = z.object({
     .positive()
     .default(() => 0)
     .or(z.string()),
-  description: z.string().nullable().nullish(),
+  description: z.string().nullish(),
   user: userSchema,
 });
 
-export const announcementCreateSchema = z.object({
-  user_id: z.number().int().positive(),
+export const announcementCreateSchema = announcementSchema.omit({
+  id: true,
 });
+export const announcementUpdateSchema = announcementCreateSchema.partial();
 
-export const announcementReadSchema = announcementCreateSchema.array();
+// export const announcementReadSchema = announcementCreateSchema.array();

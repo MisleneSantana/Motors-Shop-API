@@ -5,7 +5,7 @@ import Comment from './comments.entity';
 
 @Entity('announcements')
 class Announcement {
-  @PrimaryGeneratedColumn('increment')
+  @PrimaryGeneratedColumn('uuid')
   id: number;
 
   @Column({ type: 'varchar', length: '15' })
@@ -33,19 +33,19 @@ class Announcement {
   price: number | string;
 
   @Column({ type: 'text', nullable: true })
-  description: string | undefined | null;
+  description?: string | undefined | null;
 
   // Relacionamento N:1 com user (FK da relação):
-  @ManyToOne(() => User, (user) => user.announcement)
+  @ManyToOne(() => User, (user) => user.announcements)
   user: User;
 
   // Relacionamento 1:N com image:
-  @OneToMany(() => Image, (image) => image)
-  image: Image;
+  @OneToMany(() => Image, (image) => image.announcement)
+  images: Array<Image>;
 
   // Relacionamento 1:N com comments:
   @OneToMany(() => Comment, (comment) => comment.announcement)
-  comment: Comment;
+  comments: Array<Comment>;
 }
 
 export default Announcement;

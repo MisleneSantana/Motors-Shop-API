@@ -1,6 +1,7 @@
 import app from './app';
 import { AppDataSource } from './data-source';
 
+// Conexão com o banco de dados:
 AppDataSource.initialize()
   .then((): void => {
     console.log('Database connected.');

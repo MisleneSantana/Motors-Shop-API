@@ -1,10 +1,10 @@
 import { z } from 'zod';
 
 export const commentSchema = z.object({
-  id: z.number().int().positive(),
-  comment: z.string().nullable().nullish(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
+  id: z.string(),
+  comment: z.string().nullish(),
+  createdAt: z.string().or(z.date()),
+  updatedAt: z.string().or(z.date()),
 });
 
 export const commentCreateSchema = commentSchema.omit({
