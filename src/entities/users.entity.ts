@@ -1,4 +1,3 @@
-import { getRounds, hashSync } from 'bcryptjs';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -12,11 +11,13 @@ import {
 import Address from './address.entity';
 import Announcement from './announcements.entity';
 import Comment from './comments.entity';
+import { UserRole } from '../interfaces/user.interfaces';
+import { getRounds, hashSync } from 'bcryptjs';
 
 @Entity('users')
 class User {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 50 })
   name: string;
@@ -27,17 +28,17 @@ class User {
   @Column({ type: 'varchar', length: '11', unique: true })
   cpf: string;
 
-  @Column({ type: 'varchar', length: '12'})
+  @Column({ type: 'varchar', length: '12' })
   phone_number: string;
 
   @Column({ type: 'date' })
   birth_date: string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: true, default: null })
   description?: string | undefined | null;
 
-  @Column({ type: 'varchar', length: '15' })
-  account_type: string;
+  @Column({ type: 'enum', enum: UserRole, default: UserRole.COMPRADOR })
+  account_type: UserRole;
 
   @Column({ type: 'varchar', length: 120 })
   password: string;

@@ -6,7 +6,7 @@ import Comment from './comments.entity';
 @Entity('announcements')
 class Announcement {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: '15' })
   brand: string;
@@ -32,7 +32,7 @@ class Announcement {
   @Column({ type: 'decimal', precision: 9, scale: 2, default: 0 })
   price: number | string;
 
-  @Column({ type: 'text', nullable: true })
+  @Column({ type: 'text', nullable: true, default: null })
   description?: string | undefined | null;
 
   // Relacionamento N:1 com user (FK da relação):

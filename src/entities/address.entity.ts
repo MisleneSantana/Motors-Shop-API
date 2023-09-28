@@ -1,10 +1,10 @@
-import { Column, Entity, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from 'typeorm';
 import User from './users.entity';
 
 @Entity('address')
 class Address {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: 8 })
   zip_code: string;
@@ -21,7 +21,7 @@ class Address {
   @Column({ type: 'varchar', length: 7 })
   number: string;
 
-  @Column({ type: 'varchar', length: 25, nullable: true })
+  @Column({ type: 'varchar', length: 25, nullable: true, default: null })
   complement?: string | undefined | null;
 
   // Relacionamento 1:1 com users - bidirectional:

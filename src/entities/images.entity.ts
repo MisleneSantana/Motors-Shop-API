@@ -4,7 +4,7 @@ import Announcement from './announcements.entity';
 @Entity('images')
 class Image {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'varchar', length: '280' })
   image_url: string;

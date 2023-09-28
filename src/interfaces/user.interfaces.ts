@@ -3,6 +3,10 @@ import { userCreateSchema, userReadSchema, userReturnSchema } from '../schemas/u
 import { DeepPartial, Repository } from 'typeorm';
 import { User } from '../entities';
 
+export enum UserRole {
+  COMPRADOR = 'buyer',
+  ANUNCIANTE = 'seller',
+}
 export type TUserCreate = z.infer<typeof userCreateSchema>;
 export type TUserRead = z.infer<typeof userReadSchema>;
 export type TUserReturn = z.infer<typeof userReturnSchema>;

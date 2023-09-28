@@ -6,7 +6,7 @@ import Announcement from './announcements.entity';
 @Entity('comments')
 class Comment {
   @PrimaryGeneratedColumn('uuid')
-  id: number;
+  id: string;
 
   @Column({ type: 'text', nullable: true })
   comment?: string | undefined | null;
