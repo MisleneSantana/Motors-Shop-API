@@ -43,9 +43,8 @@ class User {
   @Column({ type: 'varchar', length: 120 })
   password: string;
 
-  // Relacionamento 1:1 com address (contém a FK):
-  @OneToOne(() => Address, (address) => address.user)
-  @JoinColumn()
+  // Relacionamento 1:1 com address (Bidirecional):
+  @OneToOne(() => Address, (address) => address.user, { cascade: true })
   address: Address;
 
   // Relacionamento 1:N com announcement:

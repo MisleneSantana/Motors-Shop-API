@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const userAddressSchema = z.object({
   id: z.string(),
-  zip_code: z.string().length(8),
+  cep: z.string().length(8),
   state: z.string().length(2),
   city: z.string().max(20),
   street: z.string().max(45),
@@ -17,4 +17,3 @@ export const userAddressCreateSchema = userAddressSchema.omit({
 export const userAddressReturnSchema = userAddressSchema;
 
 export const userAddressUpdateSchema = userAddressCreateSchema.partial();
-

@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 import User from './users.entity';
 import Image from './images.entity';
 import Comment from './comments.entity';
@@ -21,7 +21,7 @@ class Announcement {
   fuel: string;
 
   @Column({ type: 'integer' })
-  mileage: number;
+  km: number;
 
   @Column({ type: 'varchar', length: '15' })
   color: string;
@@ -35,12 +35,15 @@ class Announcement {
   @Column({ type: 'text', nullable: true, default: null })
   description?: string | undefined | null;
 
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: string;
+
   // Relacionamento N:1 com user (FK da relação):
-  @ManyToOne(() => User, (user) => user.announcements)
+  @ManyToOne(() => User, (user) => user.announcements, { onDelete: 'CASCADE' })
   user: User;
 
   // Relacionamento 1:N com image:
-  @OneToMany(() => Image, (image) => image.announcement)
+  @OneToMany(() => Image, (image) => image.announcement, { cascade: true })
   images: Array<Image>;
 
   // Relacionamento 1:N com comments:

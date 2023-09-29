@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { userSchema } from './user.schema';
+import { imageCreateSchema } from './image.schema';
 
 export const announcementSchema = z.object({
   id: z.string(),
   brand: z.string().max(15),
   model: z.string().max(20),
-  year: z.number().int().positive().max(4),
+  year: z.number().int().positive(),
   fuel: z.string().max(15),
-  mileage: z.number().int().positive().max(6),
+  km: z.number().int().positive(),
   color: z.string().max(15),
   table_price: z
     .number()
@@ -20,12 +20,33 @@ export const announcementSchema = z.object({
     .default(() => 0)
     .or(z.string()),
   description: z.string().nullish(),
-  user: userSchema,
+  createdAt: z.string().or(z.date()),
 });
 
-export const announcementCreateSchema = announcementSchema.omit({
-  id: true,
+export const announcementCreateSchema = announcementSchema
+  .extend({
+    // images: imageCreateSchema,
+  })
+  .omit({ id: true, createdAt: true });
+
+export const announcementReturnSchema = announcementSchema.extend({
+  user: z
+    .object({
+      id: z.string(),
+      name: z.string().max(50),
+      phone_number: z.string().length(12),
+      description: z.string().nullish(),
+    })
+    .optional(),
+  images: z
+    .object({
+      id: z.string(),
+      image_url: z.string().max(280),
+    })
+    .array()
+  .optional(),
 });
+
 export const announcementUpdateSchema = announcementCreateSchema.partial();
 
-// export const announcementReadSchema = announcementCreateSchema.array();
+export const announcementReadSchema = announcementCreateSchema.array();

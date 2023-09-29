@@ -7,7 +7,7 @@ class Address {
   id: string;
 
   @Column({ type: 'varchar', length: 8 })
-  zip_code: string;
+  cep: string;
 
   @Column({ type: 'varchar', length: 2 })
   state: string;
@@ -24,8 +24,9 @@ class Address {
   @Column({ type: 'varchar', length: 25, nullable: true, default: null })
   complement?: string | undefined | null;
 
-  // Relacionamento 1:1 com users - bidirectional:
-  @OneToOne(() => User, (user) => user.address)
+  // Relacionamento 1:1 com users (contém a FK):
+  @OneToOne(() => User, (user) => user.address, { onDelete: 'CASCADE' })
+  @JoinColumn()
   user: User;
 }
 

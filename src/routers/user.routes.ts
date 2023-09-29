@@ -1,14 +1,17 @@
 import { Router } from 'express';
-import { createUserController } from '../controllers/users/createUser.controller';
+import { createUserController } from '../controllers/user/createUser.controller';
 import { validateBodyMiddleware } from '../middlewares/validateBody.middleware';
 import { userCreateSchema, userUpdateSchema } from '../schemas/user.schema';
 import { verifyUserEmailExistsMiddleware } from '../middlewares/user/verifyUserEmailExists.middleware';
 import { verifyCpfExistsMiddleware } from '../middlewares/user/verifyCpfExists.middleware';
-import { readUsersController } from '../controllers/users/readUsers.controller';
+import { readUsersController } from '../controllers/user/readUsers.controller';
 import { verifyTokenMiddleware } from '../middlewares/user/verifyToken.middleware';
 import { verifyUserIsOwnerMiddleware } from '../middlewares/user/verifyUserIsOwner.middleware';
-import { updateUserController } from '../controllers/users/updateUser.controller';
+import { updateUserController } from '../controllers/user/updateUser.controller';
 import { verifyUserIdExistsMiddleware } from '../middlewares/user/verifyUserIdExists.middleware';
+import { validateTheUuidMiddleware } from '../middlewares/user/validateTheUuid.middleware';
+import { userByIdController } from '../controllers/user/userById.controller';
+import { deleteUserController } from '../controllers/user/deleteUser.controller';
 
 export const userRouter: Router = Router();
 
@@ -30,12 +33,31 @@ userRouter.use('/:id', verifyUserIdExistsMiddleware);
 
 // 3. Atualiza um usuário:
 // 3.1 A rota deve atualizar os dados do usuário
-// 3.2 Não deve ser possível atualizar os campos id e account_type
+// 3.2 Não deve ser possível atualizar os campos id, cpf e account_type
 // 3.3 Atualizar apenas seu próprio usuário
 userRouter.patch(
   '/:id',
   validateBodyMiddleware(userUpdateSchema),
-  // verifyTokenMiddleware,
-  // verifyUserIsOwnerMiddleware,
+  verifyTokenMiddleware,
+  validateTheUuidMiddleware,
+  verifyUserIsOwnerMiddleware,
   updateUserController
+);
+
+// 4. User by id:
+userRouter.get(
+  '/:id',
+  verifyTokenMiddleware,
+  validateTheUuidMiddleware,
+  verifyUserIsOwnerMiddleware,
+  userByIdController
+);
+
+// 4. Delete user (sem soft remove):
+userRouter.delete(
+  '/:id',
+  verifyTokenMiddleware,
+  validateTheUuidMiddleware,
+  verifyUserIsOwnerMiddleware,
+  deleteUserController
 );

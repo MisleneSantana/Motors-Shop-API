@@ -4,7 +4,7 @@ import { DeepPartial, Repository } from 'typeorm';
 import { User } from '../entities';
 
 export enum UserRole {
-  COMPRADOR = 'buyer',
+  COMPRADOR = ('buyer'),
   ANUNCIANTE = 'seller',
 }
 export type TUserCreate = z.infer<typeof userCreateSchema>;

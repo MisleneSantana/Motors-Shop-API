@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../../entities';
-import { TUserReturn, TUserUpdate } from '../../interfaces/user.interfaces';
+import { TUserReturn } from '../../interfaces/user.interfaces';
 import { updateUserService } from '../../services/users/updateUser.service';
 
 export const updateUserController = async (req: Request, res: Response): Promise<Response> => {
