@@ -8,14 +8,11 @@ class Comment {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
-  @Column({ type: 'text', nullable: true })
-  comment?: string | undefined | null;
+  @Column({ type: 'text' })
+  comment: string;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
-
-  @UpdateDateColumn({ type: 'timestamp' })
-  updatedAt: string;
 
   // Relacionamento N:1 com user (FK da relação):
   @ManyToOne(() => User, (user) => user.comments)

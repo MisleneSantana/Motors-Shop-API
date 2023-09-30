@@ -12,11 +12,13 @@ export const userSchema = z.object({
   description: z.string().nullish(),
   account_type: z.enum([UserRole.ANUNCIANTE, UserRole.COMPRADOR]).default(UserRole.COMPRADOR),
   password: z.string().max(120),
+  createdAt: z.string().or(z.date()),
   address: userAddressCreateSchema,
 });
 
 export const userCreateSchema = userSchema.omit({
   id: true,
+  createdAt: true,
 });
 
 export const userReturnSchema = z
@@ -30,7 +32,7 @@ export const userReturnSchema = z
     description: z.string().nullish(),
     account_type: z.string().max(15),
     password: z.string().max(120),
-    // address: userAddressReturnSchema,
+    createdAt: z.string().or(z.date()),
     address: userAddressUpdateSchema,
   })
   .omit({ password: true });

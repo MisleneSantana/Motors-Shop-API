@@ -2,6 +2,7 @@ import {
   BeforeInsert,
   BeforeUpdate,
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   OneToMany,
@@ -42,6 +43,9 @@ class User {
 
   @Column({ type: 'varchar', length: 120 })
   password: string;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: string;
 
   // Relacionamento 1:1 com address (Bidirecional):
   @OneToOne(() => Address, (address) => address.user, { cascade: true })

@@ -10,10 +10,10 @@ export const announcementRouter: Router = Router();
 announcementRouter.use('', verifyUserIdExistsMiddleware);
 
 // Endpoints:
-// 1. 
+// 1. Criar um anúncio e suas imagens
 announcementRouter.post(
   '',
-  validateBodyMiddleware(announcementCreateSchema),
+  // validateBodyMiddleware(announcementCreateSchema),
   verifyTokenMiddleware,
   createAnnouncementController
 );

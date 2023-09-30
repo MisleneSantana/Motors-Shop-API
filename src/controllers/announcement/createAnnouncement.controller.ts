@@ -6,6 +6,8 @@ export const createAnnouncementController = async (req: Request, res: Response):
   const userId: string = res.locals.decoded.sub;
   const announcementData: TAnnouncementCreate = req.body;
 
+  // console.log(userId);
+
   const newAnnouncement: TAnnouncementReturn = await createAnnouncementService(userId, announcementData);
   return res.status(200).json(newAnnouncement);
 };

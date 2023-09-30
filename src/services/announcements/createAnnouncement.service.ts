@@ -1,11 +1,14 @@
-import { Announcement, Image, User } from '../../entities';
+import { Announcement, User } from '../../entities';
 import { AppError } from '../../errors/error';
 import { TAnnouncementCreate } from '../../interfaces/announcement.interfaces';
 import { UserRole } from '../../interfaces/user.interfaces';
 import { announcementRepo, imageRepo, userRepo } from '../../repositories';
 import { announcementReturnSchema } from '../../schemas/announcement.schema';
 
-export const createAnnouncementService = async (userId: string, announcementData: TAnnouncementCreate) => {
+export const createAnnouncementService = async (
+  userId: string,
+  { images, ...announcementData }: TAnnouncementCreate
+) => {
   const user: User | null = await userRepo.findOne({ where: { id: userId } });
   if (!user) {
     throw new AppError('User not found', 404);
@@ -15,14 +18,13 @@ export const createAnnouncementService = async (userId: string, announcementData
     throw new AppError(`Only allowed for ${UserRole.COMPRADOR} profiles`, 403);
   }
 
-  // const { images } = announcementData;
-  // const imageAnnouncement: any = await imageRepo.save(images);
-  // console.log(imageAnnouncement);
+  const newImage: any = await imageRepo.save(images);
+  // console.log(newImage);
 
   const newAnnouncement: Announcement = announcementRepo.create({
     ...announcementData,
     user,
-    // images: imageAnnouncement,
+    images: newImage,
   });
 
   await announcementRepo.save(newAnnouncement);

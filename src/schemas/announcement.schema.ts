@@ -25,11 +25,17 @@ export const announcementSchema = z.object({
 
 export const announcementCreateSchema = announcementSchema
   .extend({
-    // images: imageCreateSchema,
+    images: imageCreateSchema,
   })
   .omit({ id: true, createdAt: true });
 
 export const announcementReturnSchema = announcementSchema.extend({
+  images: z
+    .object({
+      id: z.string(),
+      image_url: z.string().max(280),
+    })
+    .array(),
   user: z
     .object({
       id: z.string(),
@@ -38,13 +44,6 @@ export const announcementReturnSchema = announcementSchema.extend({
       description: z.string().nullish(),
     })
     .optional(),
-  images: z
-    .object({
-      id: z.string(),
-      image_url: z.string().max(280),
-    })
-    .array()
-  .optional(),
 });
 
 export const announcementUpdateSchema = announcementCreateSchema.partial();
