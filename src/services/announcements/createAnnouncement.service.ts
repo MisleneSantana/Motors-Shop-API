@@ -14,7 +14,7 @@ export const createAnnouncementService = async (
     throw new AppError('User not found', 404);
   }
 
-  if (user.account_type === UserRole.COMPRADOR) {
+  if (user.account_type.toUpperCase() === UserRole.COMPRADOR.toUpperCase()) {
     throw new AppError(`Only allowed for ${UserRole.COMPRADOR} profiles`, 403);
   }
 

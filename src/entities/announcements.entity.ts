@@ -43,7 +43,7 @@ class Announcement {
   user: User;
 
   // Relacionamento 1:N com image:
-  @OneToMany(() => Image, (image) => image.announcement, { cascade: true })
+  @OneToMany(() => Image, (image) => image.announcement)
   images: Array<Image>;
 
   // Relacionamento 1:N com comments:

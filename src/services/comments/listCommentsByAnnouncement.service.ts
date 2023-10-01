@@ -1,11 +1,11 @@
 import { Announcement, Comment } from '../../entities';
 import { AppError } from '../../errors/error';
 import { announcementRepo, commentRepo } from '../../repositories';
-import { commentReturnSchema } from '../../schemas/comment';
+import { commentReadSchema } from '../../schemas/comment';
 
 export const listCommentsByAnnouncementService = async (announcementId: string) => {
   const foundAnnouncement: Announcement | null = await announcementRepo.findOne({
-    where: { id: announcementId }
+    where: { id: announcementId },
   });
 
   if (!foundAnnouncement) throw new AppError('Announcement not found', 404);
@@ -20,5 +20,5 @@ export const listCommentsByAnnouncementService = async (announcementId: string) 
 
   if (!comments) throw new AppError('This announcement has no comments', 404);
 
-  return commentReturnSchema.parse(comments);
+  return commentReadSchema.parse(comments);
 };

@@ -27,9 +27,11 @@ export const announcementCreateSchema = announcementSchema
   .extend({
     images: imageCreateSchema,
   })
+  
   .omit({ id: true, createdAt: true });
 
 export const announcementReturnSchema = announcementSchema.extend({
+  createdAt: z.string().or(z.date()),
   images: z
     .object({
       id: z.string(),

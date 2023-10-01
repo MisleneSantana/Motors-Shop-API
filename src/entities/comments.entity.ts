@@ -15,11 +15,11 @@ class Comment {
   createdAt: string;
 
   // Relacionamento N:1 com user (FK da relação):
-  @ManyToOne(() => User, (user) => user.comments)
+  @ManyToOne(() => User, (user) => user.comments, { onDelete: 'SET NULL' })
   user: User;
 
   // Relacionamento N:1 com announcement (FK da relação):
-  @ManyToOne(() => Announcement, (announcement) => announcement.comments)
+  @ManyToOne(() => Announcement, (announcement) => announcement.comments, { onDelete: 'SET NULL' })
   announcement: Announcement;
 }
 
