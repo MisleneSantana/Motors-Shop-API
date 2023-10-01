@@ -5,7 +5,7 @@ export const announcementSchema = z.object({
   id: z.string(),
   brand: z.string().max(15),
   model: z.string().max(20),
-  year: z.number().int().positive(),
+  year: z.string().max(4),
   fuel: z.string().max(15),
   km: z.number().int().positive(),
   color: z.string().max(15),
@@ -20,6 +20,7 @@ export const announcementSchema = z.object({
     .default(() => 0)
     .or(z.string()),
   description: z.string().nullish(),
+  announcement_is_active: z.boolean().default(true),
   createdAt: z.string().or(z.date()),
 });
 
@@ -27,17 +28,11 @@ export const announcementCreateSchema = announcementSchema
   .extend({
     images: imageCreateSchema,
   })
-  
+
   .omit({ id: true, createdAt: true });
 
 export const announcementReturnSchema = announcementSchema.extend({
   createdAt: z.string().or(z.date()),
-  images: z
-    .object({
-      id: z.string(),
-      image_url: z.string().max(280),
-    })
-    .array(),
   user: z
     .object({
       id: z.string(),
@@ -46,8 +41,42 @@ export const announcementReturnSchema = announcementSchema.extend({
       description: z.string().nullish(),
     })
     .optional(),
+  images: z
+    .object({
+      id: z.string(),
+      image_url: z.string().max(280),
+    })
+    .array(),
 });
 
 export const announcementUpdateSchema = announcementCreateSchema.partial();
 
-export const announcementReadSchema = announcementCreateSchema.array();
+export const announcementReadSchema = z
+  .object({
+    id: z.string(),
+    createdAt: z.string().or(z.date()),
+    announcement_is_active: z.boolean().default(false),
+    brand: z.string().max(15),
+    model: z.string().max(20),
+    description: z.string().nullish(),
+    km: z.number().int().positive(),
+    year: z.string().max(4),
+    price: z
+      .number()
+      .positive()
+      .default(() => 0)
+      .or(z.string()),
+    user: z
+      .object({
+        id: z.string(),
+        name: z.string().max(50),
+      })
+      .optional(),
+    images: z
+      .object({
+        id: z.string(),
+        image_url: z.string().max(280),
+      })
+      .array(),
+  })
+  .array();

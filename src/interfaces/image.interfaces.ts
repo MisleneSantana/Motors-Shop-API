@@ -6,5 +6,5 @@ import { Image } from '../entities';
 export type TImage = z.infer<typeof imageSchema>;
 export type TImageCreate = z.infer<typeof imageCreateSchema>;
 export type TImageReturn = z.infer<typeof imageReturnSchema>;
-// export type TImageUpdate = DeepPartial<Image[]>;
+export type TImageUpdate = DeepPartial<Image[]>;
 export type TImageRepo = Repository<Image>;

@@ -3,7 +3,7 @@ import { AppError } from '../../errors/error';
 import { announcementRepo, commentRepo } from '../../repositories';
 import { commentReadSchema } from '../../schemas/comment';
 
-export const listCommentsByAnnouncementService = async (announcementId: string) => {
+export const readCommentsByAnnouncementService = async (announcementId: string) => {
   const foundAnnouncement: Announcement | null = await announcementRepo.findOne({
     where: { id: announcementId },
   });
@@ -18,7 +18,7 @@ export const listCommentsByAnnouncementService = async (announcementId: string) 
     },
   });
 
-  if (!comments) throw new AppError('This announcement has no comments', 404);
+  if (!comments || comments.length === 0) throw new AppError('This announcement has no comments', 404);
 
   return commentReadSchema.parse(comments);
 };

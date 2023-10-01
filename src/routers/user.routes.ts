@@ -10,7 +10,7 @@ import { verifyUserIsOwnerMiddleware } from '../middlewares/user/verifyUserIsOwn
 import { updateUserController } from '../controllers/user/updateUser.controller';
 import { verifyUserIdExistsMiddleware } from '../middlewares/user/verifyUserIdExists.middleware';
 import { validateTheUuidMiddleware } from '../middlewares/user/validateTheUuid.middleware';
-import { userByIdController } from '../controllers/user/userById.controller';
+import { readUserByIdController } from '../controllers/user/readUserById.controller';
 import { deleteUserController } from '../controllers/user/deleteUser.controller';
 
 export const userRouter: Router = Router();
@@ -26,15 +26,16 @@ userRouter.post(
   createUserController
 );
 
-// 2. Lista todos os usuários:
+// 2. Lista todos os usuários (auth):
 userRouter.get('', readUsersController);
 
 userRouter.use('/:id', verifyUserIdExistsMiddleware);
 
 // 3. Atualiza um usuário:
-// 3.1 A rota deve atualizar os dados do usuário
+// 3.1 A rota deve atualizar os dados do usuário (perfil e address)
 // 3.2 Não deve ser possível atualizar os campos id, cpf e account_type
-// 3.3 Atualizar apenas seu próprio usuário
+// 3.3 Atualizar apenas seu próprio usuário (owner)
+// 3.4 Requer auth
 userRouter.patch(
   '/:id',
   validateBodyMiddleware(userUpdateSchema),
@@ -50,7 +51,7 @@ userRouter.get(
   verifyTokenMiddleware,
   validateTheUuidMiddleware,
   verifyUserIsOwnerMiddleware,
-  userByIdController
+  readUserByIdController
 );
 
 // 4. Delete user (sem soft remove):

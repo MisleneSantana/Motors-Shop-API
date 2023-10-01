@@ -2,7 +2,7 @@
 
 ## Introdução
 
-<!-- Endpoints -->
+<!-- Endpoints --> Rotas que buscam por id precisam estar autenticadas
 
 ## 1. User:
 

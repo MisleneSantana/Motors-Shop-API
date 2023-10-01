@@ -3,7 +3,7 @@ import { createCommentToAnnouncementController } from '../controllers/comment/cr
 import { validateBodyMiddleware } from '../middlewares/validateBody.middleware';
 import { commentCreateSchema } from '../schemas/comment';
 import { verifyTokenMiddleware } from '../middlewares/user/verifyToken.middleware';
-import { listCommentsByAnnouncementController } from '../controllers/comment/listCommentsByAnnouncement.controller';
+import { readCommentsByAnnouncementController } from '../controllers/comment/readCommentsByAnnouncement.controller';
 import { updateCommentController } from '../controllers/comment/updateComment.controller';
 import { verifyOwnerOfTheCommentMiddleware } from '../middlewares/comment/verifyIsOwnerOfTheComment.middleware';
 import { deleteCommentToAnnouncementController } from '../controllers/comment/deleteCommentToAnnouncement.controller';
@@ -21,9 +21,9 @@ commentRouter.post(
   createCommentToAnnouncementController
 );
 
-// 2. Listagem dos comentários de um anúncio
+// 2. Listagem dos comentários de um anúncio (announcementId)
 // 2.1 Requer auth
-commentRouter.get('/:id', verifyTokenMiddleware, listCommentsByAnnouncementController);
+commentRouter.get('/:id', verifyTokenMiddleware, readCommentsByAnnouncementController);
 
 // 3. Edição de comentário
 // 3.1 Requer auth

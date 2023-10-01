@@ -15,7 +15,7 @@ export const createAnnouncementService = async (
   }
 
   if (user.account_type.toUpperCase() === UserRole.COMPRADOR.toUpperCase()) {
-    throw new AppError(`Only allowed for ${UserRole.COMPRADOR} profiles`, 403);
+    throw new AppError(`Only allowed for ${UserRole.ANUNCIANTE} profiles`, 403);
   }
 
   const newImage: any = await imageRepo.save(images);

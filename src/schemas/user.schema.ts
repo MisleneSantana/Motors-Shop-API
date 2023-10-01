@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { userAddressCreateSchema, userAddressReturnSchema, userAddressUpdateSchema } from './address.schema';
+import { userAddressCreateSchema, userAddressUpdateSchema } from './address.schema';
 import { UserRole } from '../interfaces/user.interfaces';
 
 export const userSchema = z.object({

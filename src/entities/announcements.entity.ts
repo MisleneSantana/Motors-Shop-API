@@ -14,8 +14,8 @@ class Announcement {
   @Column({ type: 'varchar', length: '20' })
   model: string;
 
-  @Column({ type: 'integer' })
-  year: number;
+  @Column({ type: 'varchar' })
+  year: string;
 
   @Column({ type: 'varchar', length: '15' })
   fuel: string;
@@ -34,6 +34,9 @@ class Announcement {
 
   @Column({ type: 'text', nullable: true, default: null })
   description?: string | undefined | null;
+
+  @Column({ default: true })
+  announcement_is_active: boolean;
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
