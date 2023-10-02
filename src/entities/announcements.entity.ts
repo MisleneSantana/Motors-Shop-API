@@ -49,9 +49,6 @@ class Announcement {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
 
-  @DeleteDateColumn({ type: 'date' })
-  deletedAt: string | null;
-
   // Relacionamento N:1 com user (FK da relação):
   @ManyToOne(() => User, (user) => user.announcements, { onDelete: 'CASCADE' })
   user: User;

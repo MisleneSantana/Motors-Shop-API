@@ -22,14 +22,13 @@ export const announcementSchema = z.object({
   description: z.string().nullish(),
   announcement_is_active: z.boolean().default(true),
   createdAt: z.string().or(z.date()),
-  deletedAt: z.string().or(z.date()).nullable(),
 });
 
 export const announcementCreateSchema = announcementSchema
   .extend({
     images: imageCreateSchema.array(),
   })
-  .omit({ id: true, createdAt: true, deletedAt: true });
+  .omit({ id: true, createdAt: true });
 
 export const announcementReturnSchema = announcementSchema.extend({
   createdAt: z.string().or(z.date()),

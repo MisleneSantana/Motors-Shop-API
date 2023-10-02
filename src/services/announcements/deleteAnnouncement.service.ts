@@ -6,5 +6,5 @@ export const deleteAnnouncementService = async (announcementId: string): Promise
   const announcement: Announcement | null = await announcementRepo.findOneBy({ id: announcementId });
 
   if (!announcement) throw new AppError('Announcement not found', 404);
-  await announcementRepo.softRemove(announcement);
+  await announcementRepo.remove(announcement);
 };

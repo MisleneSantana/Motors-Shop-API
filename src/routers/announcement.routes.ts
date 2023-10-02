@@ -11,6 +11,7 @@ import { validateTheUuidMiddleware } from '../middlewares/user/validateTheUuid.m
 import { updateAnnouncementController } from '../controllers/announcement/updateAnnouncement.controller';
 import { deleteAnnouncementController } from '../controllers/announcement/deleteAnnouncement.controller';
 import { validateSellerIsOwnerMiddleware } from '../middlewares/announcement/validateSellerIsOwner.middleware';
+import { upload } from '../utils/multerConfig';
 
 export const announcementRouter: Router = Router();
 
@@ -24,6 +25,7 @@ announcementRouter.post(
   '',
   validateBodyMiddleware(announcementCreateSchema),
   verifyTokenMiddleware,
+  // upload.single('images'),
   createAnnouncementController
 );
 
