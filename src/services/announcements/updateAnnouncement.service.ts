@@ -1,4 +1,4 @@
-import { Announcement } from '../../entities';
+import { Announcement, Image } from '../../entities';
 import { AppError } from '../../errors/error';
 import { TAnnouncementReturn, TAnnouncementUpdate } from '../../interfaces/announcement.interfaces';
 import { TImageUpdate } from '../../interfaces/image.interfaces';
@@ -22,27 +22,41 @@ export const updateAnnouncementService = async (
   //   where: { announcement: { id: announcementId } },
   // });
 
-  // for await (const image of oldImages) {
-  //   console.log(image);
-  //   const imageUpdated: TImageUpdate = imageRepo.create({
-  //     ...oldAnnouncement.images,
+  const allImages: any = [];
+
+  // for await (const image of oldAnnouncement.images) {
+  //   const imageUpdated = imageRepo.create({
   //     ...image,
+  //     ...announcementData.images,
   //   });
   //   await imageRepo.save(imageUpdated);
+  //   allImages.push(imageUpdated);
   // }
 
-  const imageUpdated: TImageUpdate = imageRepo.create({
-    ...oldAnnouncement.images,
-    ...announcementData.images,
-  });
-  await imageRepo.save(imageUpdated);
+  // for await (const image of oldAnnouncement.images) {
+  //   const newDataImage = announcementData.images;
 
-  // console.log(imageUpdated);
+  //   newDataImage!.forEach(async (newImage) => {
+  //     const imageUpdated = imageRepo.create({
+  //       ...image,
+  //       ...newImage,
+  //     });
+  //     await imageRepo.save(imageUpdated);
+  //   });
+
+  //   allImages.push(newDataImage);
+  // }
+
+  // const imageUpdated: TImageUpdate = imageRepo.create({
+  //   ...oldAnnouncement.images,
+  //   ...announcementData.images,
+  // });
+  // await imageRepo.save(imageUpdated);
 
   const announcementUpdated: TAnnouncementUpdate = announcementRepo.create({
     ...oldAnnouncement,
     ...announcementData,
-    images: imageUpdated,
+    images: allImages,
   });
   await announcementRepo.save(announcementUpdated);
 

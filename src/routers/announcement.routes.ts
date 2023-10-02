@@ -7,9 +7,10 @@ import { verifyUserIdExistsMiddleware } from '../middlewares/user/verifyUserIdEx
 import { readAnnouncementsController } from '../controllers/announcement/readAnnouncements.controller';
 import { readAnnouncementByIdController } from '../controllers/announcement/readAnnouncementById.controller';
 import { readAnnouncementsBySellerController } from '../controllers/announcement/readAnnouncementsBySeller.controller';
-import { userRouter } from './user.routes';
 import { validateTheUuidMiddleware } from '../middlewares/user/validateTheUuid.middleware';
 import { updateAnnouncementController } from '../controllers/announcement/updateAnnouncement.controller';
+import { deleteAnnouncementController } from '../controllers/announcement/deleteAnnouncement.controller';
+import { validateSellerIsOwnerMiddleware } from '../middlewares/announcement/validateSellerIsOwner.middleware';
 
 export const announcementRouter: Router = Router();
 
@@ -21,7 +22,7 @@ announcementRouter.use('', verifyUserIdExistsMiddleware);
 //1.2 As imagens devem ser vinculadas ao anúncio na rota de registro de anúncio
 announcementRouter.post(
   '',
-  // validateBodyMiddleware(announcementCreateSchema),
+  validateBodyMiddleware(announcementCreateSchema),
   verifyTokenMiddleware,
   createAnnouncementController
 );
@@ -39,12 +40,16 @@ announcementRouter.get('/:id', validateTheUuidMiddleware, readAnnouncementByIdCo
 announcementRouter.get('/:id/seller', validateTheUuidMiddleware, readAnnouncementsBySellerController);
 
 //5. Edição de um anúncio
+//5.1 Apenas o anunciante dono do anúncio, pode editar o mesmo.
 announcementRouter.patch(
   '/:id',
-  // validateBodyMiddleware(announcementUpdateSchema),
+  validateBodyMiddleware(announcementUpdateSchema),
   verifyTokenMiddleware,
+  validateSellerIsOwnerMiddleware,
   updateAnnouncementController
 );
 
-// //6. Exclusão de um anúncio (com soft delete)
-// announcementRouter.delete('/:id');
+//6. Exclusão de um anúncio (sem necessidade de soft delete).
+//6.1 Implementei o soft remove (inativação) - para reacessar os dados (with deleted());
+//6.2 Apenas o anunciante dono do anúncio, pode excluir o mesmo.
+announcementRouter.delete('/:id', verifyTokenMiddleware, validateSellerIsOwnerMiddleware, deleteAnnouncementController);

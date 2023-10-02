@@ -1,4 +1,12 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  Entity,
+  ManyToOne,
+  OneToMany,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import User from './users.entity';
 import Image from './images.entity';
 import Comment from './comments.entity';
@@ -40,6 +48,9 @@ class Announcement {
 
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
+
+  @DeleteDateColumn({ type: 'date' })
+  deletedAt: string | null;
 
   // Relacionamento N:1 com user (FK da relação):
   @ManyToOne(() => User, (user) => user.announcements, { onDelete: 'CASCADE' })

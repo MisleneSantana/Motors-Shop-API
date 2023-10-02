@@ -19,7 +19,6 @@ export const createAnnouncementService = async (
   }
 
   const newImage: any = await imageRepo.save(images);
-  // console.log(newImage);
 
   const newAnnouncement: Announcement = announcementRepo.create({
     ...announcementData,
