@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { commentCreateSchema, commentReturnSchema, commentSchema, commentReadSchema } from '../schemas/comment';
+import { commentCreateSchema, commentReturnSchema, commentSchema, commentReadSchema } from '../schemas/comment.schema';
 import { DeepPartial, Repository } from 'typeorm';
 
 export type TComment = z.infer<typeof commentSchema>;

@@ -1,5 +1,4 @@
-export interface IEmailRequest {
-  to: string;
-  subject: string;
-  text: string;
-}
+import { z } from 'zod';
+import { userSendEmailRequest } from '../schemas/sendEmail.schema';
+
+export type TSendEmailRequest = z.infer<typeof userSendEmailRequest>;

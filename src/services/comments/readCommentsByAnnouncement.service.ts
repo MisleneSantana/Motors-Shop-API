@@ -1,7 +1,7 @@
 import { Announcement, Comment } from '../../entities';
 import { AppError } from '../../errors/error';
 import { announcementRepo, commentRepo } from '../../repositories';
-import { commentReadSchema } from '../../schemas/comment';
+import { commentReadSchema } from '../../schemas/comment.schema';
 
 export const readCommentsByAnnouncementService = async (announcementId: string) => {
   const foundAnnouncement: Announcement | null = await announcementRepo.findOne({

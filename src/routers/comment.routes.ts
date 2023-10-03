@@ -1,7 +1,7 @@
 import { Router } from 'express';
 import { createCommentToAnnouncementController } from '../controllers/comment/createCommentToAnnouncement.controller';
 import { validateBodyMiddleware } from '../middlewares/validateBody.middleware';
-import { commentCreateSchema } from '../schemas/comment';
+import { commentCreateSchema } from '../schemas/comment.schema';
 import { verifyTokenMiddleware } from '../middlewares/user/verifyToken.middleware';
 import { readCommentsByAnnouncementController } from '../controllers/comment/readCommentsByAnnouncement.controller';
 import { updateCommentController } from '../controllers/comment/updateComment.controller';

@@ -2,7 +2,7 @@ import { Announcement, User } from '../../entities';
 import { AppError } from '../../errors/error';
 import { TComment, TCommentCreate } from '../../interfaces/comment.interfaces';
 import { announcementRepo, commentRepo, userRepo } from '../../repositories';
-import { commentReturnSchema } from '../../schemas/comment';
+import { commentReturnSchema } from '../../schemas/comment.schema';
 
 export const createCommentToAnnouncementService = async (
   userId: string,

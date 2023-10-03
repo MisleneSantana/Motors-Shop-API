@@ -38,3 +38,4 @@ export const userReturnSchema = z
   .omit({ password: true });
 export const userReadSchema = userReturnSchema.array();
 export const userUpdateSchema = userCreateSchema.partial().omit({ cpf: true, account_type: true });
+
