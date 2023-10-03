@@ -11,7 +11,9 @@ import { validateTheUuidMiddleware } from '../middlewares/user/validateTheUuid.m
 import { updateAnnouncementController } from '../controllers/announcement/updateAnnouncement.controller';
 import { deleteAnnouncementController } from '../controllers/announcement/deleteAnnouncement.controller';
 import { validateSellerIsOwnerMiddleware } from '../middlewares/announcement/validateSellerIsOwner.middleware';
-import { upload } from '../utils/multerConfig';
+import { readImagesByAnnouncementController } from '../controllers/announcement/readImagesByAnnouncement.service';
+import multer from 'multer';
+import { storage } from '../utils/multerConfig.util';
 
 export const announcementRouter: Router = Router();
 
@@ -25,7 +27,6 @@ announcementRouter.post(
   '',
   validateBodyMiddleware(announcementCreateSchema),
   verifyTokenMiddleware,
-  // upload.single('images'),
   createAnnouncementController
 );
 
@@ -41,9 +42,13 @@ announcementRouter.get('/:id', validateTheUuidMiddleware, readAnnouncementByIdCo
 //4.1 Não requer proteção
 announcementRouter.get('/:id/seller', validateTheUuidMiddleware, readAnnouncementsBySellerController);
 
+//7. Listagem das imagens de um anúncio (announcementId/images)
+//7.1 Não requer proteção
+announcementRouter.get('/:id/images', validateTheUuidMiddleware, readImagesByAnnouncementController);
+
 //5. Edição de um anúncio
 //5.1 Apenas o anunciante dono do anúncio, pode editar o mesmo.
-announcementRouter.patch(
+announcementRouter.put(
   '/:id',
   validateBodyMiddleware(announcementUpdateSchema),
   verifyTokenMiddleware,
@@ -55,3 +60,9 @@ announcementRouter.patch(
 //6.1 Implementei o soft remove (inativação) - para reacessar os dados (with deleted());
 //6.2 Apenas o anunciante dono do anúncio, pode excluir o mesmo.
 announcementRouter.delete('/:id', verifyTokenMiddleware, validateSellerIsOwnerMiddleware, deleteAnnouncementController);
+
+//8. Upload de imagens com Multer (Para fins de estudo - Visto que as images não são criadas separadamente)
+const upload = multer({ storage: storage });
+announcementRouter.post('/upload', verifyTokenMiddleware, upload.array('images'), (req, res) => {
+  return res.json(req.file?.filename);
+});

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { compareUuid } from '../../utils/compareUuid';
+import { compareUuid } from '../../utils/compareUuid.util';
 
 export const validateTheUuidMiddleware = (req: Request, res: Response, next: NextFunction) => {
   const userId: string = req.params.id;
