@@ -48,7 +48,7 @@ announcementRouter.get('/:id/images', validateTheUuidMiddleware, readImagesByAnn
 
 //5. Edição de um anúncio
 //5.1 Apenas o anunciante dono do anúncio, pode editar o mesmo.
-announcementRouter.put(
+announcementRouter.patch(
   '/:id',
   validateBodyMiddleware(announcementUpdateSchema),
   verifyTokenMiddleware,

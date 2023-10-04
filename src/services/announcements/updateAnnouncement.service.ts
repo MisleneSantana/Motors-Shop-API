@@ -3,7 +3,6 @@ import { AppError } from '../../errors/error';
 import { TAnnouncementUpdate } from '../../interfaces/announcement.interfaces';
 import { announcementRepo, imageRepo } from '../../repositories';
 
-// (Salvar primeiro sempre o lado 1 -> da relação 1:N)
 export const updateAnnouncementService = async (announcementId: string, announcementData: TAnnouncementUpdate) => {
   const oldAnnouncement: Announcement | null = await announcementRepo.findOne({
     where: { id: announcementId },
@@ -14,6 +13,7 @@ export const updateAnnouncementService = async (announcementId: string, announce
     throw new AppError('Announcement not found', 404);
   }
 
+  // Esta linha se refere a salvar primeiro sempre o lado 1 -> da relação 1:N).
   const announcement: Announcement = announcementRepo.create({
     ...oldAnnouncement,
     ...announcementData,

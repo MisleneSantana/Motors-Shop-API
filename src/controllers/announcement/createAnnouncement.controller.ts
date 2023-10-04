@@ -7,5 +7,5 @@ export const createAnnouncementController = async (req: Request, res: Response):
   const announcementData: TAnnouncementCreate = req.body;
 
   const newAnnouncement: TAnnouncementReturn = await createAnnouncementService(userId, announcementData);
-  return res.status(200).json(newAnnouncement);
+  return res.status(201).json(newAnnouncement);
 };

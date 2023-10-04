@@ -15,9 +15,9 @@ import { deleteUserController } from '../controllers/user/deleteUser.controller'
 
 export const userRouter: Router = Router();
 
-// Endpoints:
-// 1.  Registro de usuário:
-// 1.1 Não requer permissão
+//Endpoints:
+//1.  Registro de usuário:
+//1.1 Não requer permissão
 userRouter.post(
   '',
   validateBodyMiddleware(userCreateSchema),
@@ -26,16 +26,25 @@ userRouter.post(
   createUserController
 );
 
-// 2. Lista todos os usuários (auth):
+//2. Lista todos os usuários:
 userRouter.get('', readUsersController);
 
 userRouter.use('/:id', verifyUserIdExistsMiddleware);
 
-// 3. Atualiza um usuário:
-// 3.1 A rota deve atualizar os dados do usuário (perfil e address)
-// 3.2 Não deve ser possível atualizar os campos id, cpf e account_type
-// 3.3 Atualizar apenas seu próprio usuário (owner)
-// 3.4 Requer auth
+//3. User by id:
+userRouter.get(
+  '/:id',
+  validateTheUuidMiddleware,
+  verifyTokenMiddleware,
+  verifyUserIsOwnerMiddleware,
+  readUserByIdController
+);
+
+//4. Atualiza um usuário:
+//4.1 A rota deve atualizar os dados do usuário (perfil e address)
+//4.2 Não deve ser possível atualizar os campos id, cpf e account_type
+//4.3 Atualizar apenas seu próprio usuário (owner)
+//4.4 Requer auth
 userRouter.patch(
   '/:id',
   validateBodyMiddleware(userUpdateSchema),
@@ -45,16 +54,7 @@ userRouter.patch(
   updateUserController
 );
 
-// 4. User by id:
-userRouter.get(
-  '/:id',
-  verifyTokenMiddleware,
-  validateTheUuidMiddleware,
-  verifyUserIsOwnerMiddleware,
-  readUserByIdController
-);
-
-// 4. Delete user (sem soft remove):
+//4. Delete user (sem soft remove):
 userRouter.delete(
   '/:id',
   verifyTokenMiddleware,

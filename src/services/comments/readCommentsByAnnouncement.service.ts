@@ -18,7 +18,7 @@ export const readCommentsByAnnouncementService = async (announcementId: string) 
     },
   });
 
-  if (!comments || comments.length === 0) throw new AppError('This announcement has no comments', 404);
+  if (!comments || comments.length === 0) throw new AppError('This announcement has no comments', 400);
 
   return commentReadSchema.parse(comments);
 };

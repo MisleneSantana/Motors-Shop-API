@@ -1,0 +1,921 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Car sales and purchase e-commerce App",
+    "summary": "Motor Shop e-commerce",
+    "description": "This is an example of a server/API for an e-commerce for selling and purchasing cars.",
+    "contact": {
+      "name": "API Support",
+      "email": "contact.mislene@mail.com"
+    },
+    "license": {
+      "name": "MIT license",
+      "identifier": "Fins educacionais não comerciais"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local API"
+    }
+  ],
+  "paths": {
+    "/users": {
+      "post": {
+        "summary": "Criação de um usuário (usuário e endereço)",
+        "description": "1.) Rota responsável por cadastrar um novo usuário e o respectivo endereço deste usuário. 1.1) Sendo possível cria-lo apenas com o perfil de anunciante (seller) ou comprador (buyer).",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Caio",
+                    "email": "caio@mail.com",
+                    "cpf": "55555555555",
+                    "phone_number": "111111111111",
+                    "birth_date": "1989/05/16",
+                    "description": "Vendedora de carros",
+                    "account_type": "seller",
+                    "password": "1234",
+                    "address": {
+                      "cep": "11111111",
+                      "state": "SP",
+                      "city": "SBCampo",
+                      "street": "Rua das Flores",
+                      "number": "1",
+                      "complement": "Loja"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Email already registered"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "get": {
+        "summary": "Listagem dos usuários",
+        "description": "Rota responsável por listar todos os usuários cadastrados",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/{id}": {
+      "get": {
+        "summary": "Listagem de um usuário por ID",
+        "description": "Rota responsável por buscar um usuário específico",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário a ser buscado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid UUID"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "patch": {
+        "summary": "Edição das informações do usuário (perfil e endereço)",
+        "description": "1.) Rota responsável por atualizar os dados de um usuário (perfil e/ou endereço). 1.1) Os campos id, cpf e account_type, não podem ser atualizados. 1.2) Apenas o usuário dono da conta pode editar seus dados.",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário a ser atualizado",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "userWithAddress": {
+                  "value": {
+                    "name": "Mislene",
+                    "email": "mi@mail.com",
+                    "password": "1234",
+                    "address": {
+                      "cep": "11111111",
+                      "state": "SP",
+                      "city": "Diadema",
+                      "street": "Rua Cafezal",
+                      "number": "3",
+                      "complement": "Loja de carros"
+                    }
+                  }
+                },
+                "user": {
+                  "value": {
+                    "name": "Mislene",
+                    "email": "mi@mail.com",
+                    "password": "1234"
+                  }
+                },
+                "address": {
+                  "value": {
+                    "address": {
+                      "cep": "11111111",
+                      "state": "SP",
+                      "city": "Diadema",
+                      "street": "Rua Cafezal",
+                      "number": "3",
+                      "complement": "Loja de carros"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "400": {
+            "description": "Invalid UUID"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Deleção de um usuário",
+        "description": "1.) Rota responsável por deletar os dados da conta de um usuário. 1.1) Apenas o usuário dono da conta pode excluir ele mesmo. 1.2) Os dados não podem ser recuperados no banco de dados.",
+        "tags": ["Users"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do usuário a ser deletado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid UUID"
+          },
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/login": {
+      "post": {
+        "summary": "Login de um usuário",
+        "description": "Rota responsável por logar o usuário e gerar um token de autenticação e autorização",
+        "tags": ["Sessions"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "mi@mail.com",
+                    "password": "1234"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Login"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/announcements": {
+      "post": {
+        "summary": "Criação de um anúncio (anúncio e imagens)",
+        "description": "1.) Rota responsável por cadastrar um novo anúncio e as respectivas imagens deste anúncio. 1.1) Apenas usuários com o perfil de anunciante (seller) podem criar um anúncio.",
+        "tags": ["Announcements"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Announcement"
+              },
+              "examples": {
+                "announcement": {
+                  "value": {
+                    "brand": "Mercedes Bens",
+                    "model": "GLA",
+                    "year": "2010",
+                    "fuel": "Gasolina",
+                    "km": 80000,
+                    "color": "Preto",
+                    "table_price": 19000.0,
+                    "price": 12000.0,
+                    "description": "Em ótimo estado",
+                    "images": [
+                      {
+                        "image_url": "url da imagem"
+                      },
+                      {
+                        "image_url": "url da imagem"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "User not found"
+          },
+          "403": {
+            "description": "Only allowed for seller profiles"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "get": {
+        "summary": "Listagem dos anúncios",
+        "description": "Rota responsável por listar todos os anúncios",
+        "tags": ["Announcements"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/announcements/{id}": {
+      "get": {
+        "summary": "Listagem de um anúncio por ID",
+        "description": "Rota responsável por buscar um anúncio específico",
+        "tags": ["Announcements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio a ser buscado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid UUID"
+          },
+          "404": {
+            "description": "Announcement not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "patch": {
+        "summary": "Edição das informações de um anúncio (anúncio e imagens)",
+        "description": "1.) Rota responsável por atualizar os dados de um anúncio (anúncio e/ou imagens). 1.1) Apenas o usuário dono do anúncio pode editar o mesmo.",
+        "tags": ["Announcements"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio a ser atualizado",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Announcement"
+              },
+              "examples": {
+                "announcementAndImages": {
+                  "value": {
+                    "color": "Red",
+                    "images": [
+                      {
+                        "image_url": "uma nova url de imagem"
+                      },
+                      {
+                        "image_url": "uma nova url de imagem"
+                      }
+                    ]
+                  }
+                },
+                "announcement": {
+                  "value": {
+                    "color": "Red"
+                  }
+                },
+                "images": {
+                  "value": {
+                    "images": [
+                      {
+                        "image_url": "uma nova url de imagem"
+                      },
+                      {
+                        "image_url": "uma nova url de imagem"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "Announcement not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Deleção de anúncios",
+        "description": "1.) Rota responsável por deletar os dados de um anúncio. 1.1) Apenas o usuário dono do anúncio pode excluir o mesmo.",
+        "tags": ["Announcements"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio a ser deletado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "Announcement not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/announcements/{id}/seller": {
+      "get": {
+        "summary": "Listagem de todos os anúncios de um anunciante",
+        "description": "Rota responsável por buscar todos os anúncios de um anunciante",
+        "tags": ["Announcements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anunciante",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid UUID"
+          },
+          "404": {
+            "description": "User/Seller not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/announcements/{id}/images": {
+      "get": {
+        "summary": "Listagem de todos as imagens de um anúncio",
+        "description": "Rota responsável por buscar todas as imagens de um anúncio específico",
+        "tags": ["Announcements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio",
+            "required": true
+          }
+        ],
+        "responses": {
+          "400": {
+            "description": "Invalid UUID"
+          },
+          "404": {
+            "description": "Announcement not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/comments/{id}": {
+      "post": {
+        "summary": "Criação de um comentário",
+        "description": "1.) Rota responsável por cadastrar um comentário referente a um anúncio. 1.1) O comentário pode ser feito pelo próprio anunciante ou por um comprador.",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio em que o comentário será realizado/vinculado",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "examples": {
+                "sellerComment": {
+                  "value": {
+                    "comment": "Um comentário do anunciante (token de anunciante) - Carro maneiro"
+                  }
+                },
+                "buyerComment": {
+                  "value": {
+                    "comment": "Um comentário do comprador (token de comprador) - Gostei heiiim"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "Announcement not found"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "get": {
+        "summary": "Listagem dos comentários de um anúncio",
+        "description": "Rota responsável por listar todos os comentários de um anúncio específico",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio em que se quer buscar os comentários",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "400": {
+            "description": "This announcement has no comments"
+          },
+          "404": {
+            "description": "Announcement not found"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "patch": {
+        "summary": "Edição de comentários",
+        "description": "1.) Rota responsável por atualizar o comentário de um anúncio. 1.1) Somente o usuário que realizou o comentário pode editá-lo.",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do comentário a ser atualizado",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Comment"
+              },
+              "examples": {
+                "sellerComment": {
+                  "value": {
+                    "comment": "Um comentário do anunciante - UPDATE"
+                  }
+                },
+                "buyerComment": {
+                  "value": {
+                    "comment": "Um comentário do comprador - UPDATE"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "delete": {
+        "summary": "Deleção de comentários",
+        "description": "1.) Rota responsável por deletar o comentário de um anúncio. 1.1) O usuário com perfil de anunciante pode excluir qualquer comentário caso seja dono do anúncio, do contrário caso seja dono do comentário. 1.2) O usuário com perfil de comprador pode excluir somente seu próprio comentário.",
+        "tags": ["Comments"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do comentário a ser deletado",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "Comment not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Comment"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+
+  "components": {
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+
+      "User": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "phone_number": {
+            "type": "string"
+          },
+          "birth_date": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "account_type": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "address": {
+            "type": "object",
+            "properties": {
+              "cep": {
+                "type": "string"
+              },
+              "state": {
+                "type": "string"
+              },
+              "city": {
+                "type": "string"
+              },
+              "street": {
+                "type": "string"
+              },
+              "number": {
+                "type": "string"
+              },
+              "complement": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+
+      "Announcement": {
+        "type": "object",
+        "properties": {
+          "brand": {
+            "type": "string"
+          },
+          "model": {
+            "type": "string"
+          },
+          "year": {
+            "type": "string"
+          },
+          "fuel": {
+            "type": "string"
+          },
+          "km": {
+            "type": "number"
+          },
+          "color": {
+            "type": "string"
+          },
+          "table_price": {
+            "type": "number"
+          },
+          "price": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "images": {
+            "type": "object",
+            "properties": {
+              "image_url": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+
+      "Comment": {
+        "type": "object",
+        "properties": {
+          "comment": {
+            "type": "string"
+          }
+        }
+      }
+    },
+
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  }
+}
