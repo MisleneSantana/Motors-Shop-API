@@ -43,6 +43,9 @@ class User {
   @Column({ type: 'varchar', length: 120 })
   password: string;
 
+  @Column({ type: 'varchar', nullable: true })
+  reset_password: string | null;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt: string;
 

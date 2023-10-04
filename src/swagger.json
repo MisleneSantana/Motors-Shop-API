@@ -833,6 +833,9 @@
           "password": {
             "type": "string"
           },
+          "reset_password": {
+            "type": "string"
+          },
           "address": {
             "type": "object",
             "properties": {

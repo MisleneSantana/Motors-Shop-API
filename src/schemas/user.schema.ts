@@ -12,6 +12,7 @@ export const userSchema = z.object({
   description: z.string().nullish(),
   account_type: z.enum([UserRole.ANUNCIANTE, UserRole.COMPRADOR]).default(UserRole.COMPRADOR),
   password: z.string().max(120),
+  reset_password: z.string().nullable(),
   createdAt: z.string().or(z.date()),
   address: userAddressCreateSchema,
 });
@@ -19,6 +20,7 @@ export const userSchema = z.object({
 export const userCreateSchema = userSchema.omit({
   id: true,
   createdAt: true,
+  reset_password: true,
 });
 
 export const userReturnSchema = z
@@ -35,7 +37,8 @@ export const userReturnSchema = z
     createdAt: z.string().or(z.date()),
     address: userAddressUpdateSchema,
   })
-  .omit({ password: true });
+  .omit({ password: true, reset_password: true });
 export const userReadSchema = userReturnSchema.array();
-export const userUpdateSchema = userCreateSchema.partial().omit({ cpf: true, account_type: true });
-
+export const userUpdateSchema = userCreateSchema
+  .partial()
+  .omit({ cpf: true, account_type: true, reset_password: true });

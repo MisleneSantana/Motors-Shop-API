@@ -22,7 +22,8 @@
 - [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
 - [multer](https://www.npmjs.com/package/multer)
 - [nodemailer](https://www.npmjs.com/package/nodemailer)
-- [Regex for uuid](https://ihateregex.io/expr/uuid/)
+- [Mailgen](https://www.npmjs.com/package/mailgen)
+- [uuid](https://ihateregex.io/expr/uuid/)
 - [draw.io](https://app.diagrams.net/)
 
 ## 2. Diagrama ER
@@ -52,6 +53,7 @@ DATABASE_URL=postgres://<username>:<password>@<host>:<port>/<database>
 SECRET_KEY=jwt_secret_key
 EXPIRES_IN=jwt_expires_in
 ```
+
 Substitua as credenciais pelos seus dados.
 
 ## 3.2 Migrações
