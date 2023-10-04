@@ -1,33 +1,94 @@
-## Projeto Final Full Stack: Ecommerce de carros
+# Motors Shop API
 
-## Introdução
+### A API foi desenvolvida com o intuito de gerenciar um e-commerce de venda e compra de carros.
 
-<!-- Endpoints --> Rotas que buscam por id precisam estar autenticadas
+# Rota para documentação
 
-## 1. User:
+Consulte a documentação em:
 
-## Cadastro de usuário
+https://localhost:3000/api-docs/
 
-## Editar informações do usuário (perfil e endereço) - Não atualizar os campos ID e account_type
+## 1. Visão Geral
 
-## Excluir usuário (sem soft delete)
+## Um pouco das tecnologias, bibliotecas e ferramentas utilizadas:
 
-## Autenticação do usuário (Login)
+- [NodeJS](https://nodejs.org/en/)
+- [Express](https://expressjs.com/pt-br/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [TypeORM](https://typeorm.io/)
+- [PostgreSQL](https://www.postgresql.org/)
+- [bcryptjs](https://www.npmjs.com/package/bcryptjs)
+- [dotenv](https://www.npmjs.com/package/dotenv)
+- [express-async-errors](https://www.npmjs.com/package/express-async-errors)
+- [zod](https://zod.dev/)
+- [pg](https://www.npmjs.com/package/pg)
+- [jsonwebtoken](https://www.npmjs.com/package/pg)
+- [ts-node/ts-node-dev](https://www.npmjs.com/package/ts-node-dev)
+- [reflect-metadata](https://www.npmjs.com/package/reflect-metadata)
+- [swagger-ui-express](https://www.npmjs.com/package/swagger-ui-express)
+- [multer](https://www.npmjs.com/package/multer)
+- [nodemailer](https://www.npmjs.com/package/nodemailer)
+- [Regex for uuid](https://ihateregex.io/expr/uuid/)
+- [draw.io](https://app.diagrams.net/)
 
-## Proteção de rotas
+## 2. Diagrama ER
 
-## 1.1 Regras de negócio:
+[ Voltar para o topo ](#visao-geral)
 
-## Email único
+Diagrama ER da API definindo as relações entre as entidades do banco de dados encontra-se no diretório:
 
-## CPF único
+../img/der.png
 
-## Criar um usuário com perfil de anunciante ou comprador
+## 3. Instalação
 
-## Rota de edição e deleção protegidas (usuários com token)
+[ Voltar para o topo ](#visao-geral)
 
-## Apenas o usuário dono da conta pode editar ou excluir ele mesmo
+Clone o projeto em sua máquina e instale as dependências com o comando:
 
-## O endereço deve ser vinculado ao usuário na nota de registro de usuário
+```bash
+# Instalação para yarn
+yarn
 
-## Extra - envio de e-mail para recuperação de senha
+# Instalação para npm
+npm run install
+```
+
+## 3.1 Variáveis de ambiente e conexão com o banco de dados
+
+[ Voltar para o topo ](#visao-geral)
+
+Em seguida, crie um arquivo **.env**, copiando o formato abaixo:
+
+```.env
+DATABASE_URL=postgres://<username>:<password>@<host>:<port>/<database>
+SECRET_KEY=jwt_secret_key
+EXPIRES_IN=jwt_expires_in
+```
+
+## 3.2 Migrações
+
+[ Voltar para o topo ](#visao-geral)
+
+Rode as migrações executando os seguintes comandos em seu terminal:
+
+```bash
+# caso tenha instalado yarn
+yarn typeorm migration:run -d src/data-source.ts
+
+# caso tenha instalado npm
+npm run typeorm migration:run -d src/data-source.ts
+```
+
+## 4. Inicializar o servidor
+
+Rode o servidor com o seguinte comando:
+
+[ Voltar para o topo ](#visao-geral)
+
+```bash
+# caso tenha instalado yarn
+yarn dev
+
+# caso tenha instalado npm
+npm run dev
+```

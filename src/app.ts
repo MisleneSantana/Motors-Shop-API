@@ -20,7 +20,7 @@ app.use('/users', userRouter);
 app.use('/login', sessionLoginRouter);
 app.use('/announcements', announcementRouter);
 app.use('/comments', commentRouter);
-app.use('/email', sendEmailRouter);
+app.use('/email', sendEmailRouter); // Esta linha se refere ao endpoint funcional para enviar e-mail. Falta a lógica de recuperação de senha.
 
 app.use(handleError);
 
