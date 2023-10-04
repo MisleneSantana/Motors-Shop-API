@@ -52,6 +52,7 @@ DATABASE_URL=postgres://<username>:<password>@<host>:<port>/<database>
 SECRET_KEY=jwt_secret_key
 EXPIRES_IN=jwt_expires_in
 ```
+Substitua as credenciais pelos seus dados.
 
 ## 3.2 Migrações
 
@@ -79,6 +80,6 @@ npm run dev
 
 # 5. Rota para documentação
 
-Após conectar-se ao banco de dados e rodar o servidor, consulte a documentação da API em:
+Após conectar-se ao banco de dados e rodar o servidor, consulte a documentação completa da API em:
 
 https://localhost:3000/api-docs/
