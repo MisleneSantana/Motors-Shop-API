@@ -19,7 +19,7 @@ export const readAnnouncementsService = async ({
     relations: ['user', 'images'],
   });
 
-  if (announcements.length === 0) throw new AppError('There are announcements', 400);
+  if (announcements.length === 0) throw new AppError('There are not announcements', 400);
 
   if (count - page <= perPage) {
     nextPage = null;

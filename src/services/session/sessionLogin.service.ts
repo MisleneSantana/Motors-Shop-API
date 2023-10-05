@@ -11,12 +11,8 @@ export const sessionLoginService = async (userData: TSessionLoginCreate): Promis
     throw new AppError('Invalid credentials', 401);
   }
 
-  // Compara senha não hasheada com a senha hasheada recebida do bd:
   const matchPassword: boolean = await compare(userData.password, user.password);
-
-  if (!matchPassword) {
-    throw new AppError('Invalid credentials', 401);
-  }
+  if (!matchPassword) throw new AppError('Invalid credentials', 401);
 
   const token: string = sign(
     {

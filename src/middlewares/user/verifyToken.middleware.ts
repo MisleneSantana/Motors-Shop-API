@@ -19,7 +19,7 @@ export const verifyTokenMiddleware = (req: Request, res: Response, next: NextFun
     if (error) {
       throw new AppError(error.message, 401);
     }
-    // Armazena no decoded -> Para pegar (decoded.sub):
+
     res.locals = { ...res.locals, decoded };
   });
 

@@ -13,7 +13,6 @@ export const updateAnnouncementService = async (announcementId: string, announce
     throw new AppError('Announcement not found', 404);
   }
 
-  // Esta linha se refere a salvar primeiro sempre o lado 1 -> da relação 1:N).
   const announcement: Announcement = announcementRepo.create({
     ...oldAnnouncement,
     ...announcementData,

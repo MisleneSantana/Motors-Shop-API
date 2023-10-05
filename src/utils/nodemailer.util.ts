@@ -6,7 +6,7 @@ import { TSendEmailRequest } from '../interfaces/sendEmail.interface';
 import { AppError } from '../errors/error';
 
 export const sendEmailNodemailer = async ({ subject, text, to }: TSendEmailRequest) => {
-  const transporter =  createTransport({
+  const transporter = createTransport({
     host: 'smtp-mail.outlook.com',
     port: 587,
     auth: {

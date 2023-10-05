@@ -9,7 +9,6 @@ export const verifyUserIdExistsMiddleware = async (req: Request, res: Response, 
 
   if (!userFound) throw new AppError('User not found', 404);
 
-  // Armazenando o user encontrado no locals como userFound:
   res.locals = { ...res.locals, userFound };
 
   return next();
