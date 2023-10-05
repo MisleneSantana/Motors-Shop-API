@@ -97,4 +97,4 @@ SMTP_USER=email_outlook
 SMTP_PASS=password_outlook
 ```
 
-Substitua as credenciais pelos seus dados (é necerrário um e-mail outlook válido).
+Substitua as credenciais pelos seus dados. É necerrário um e-mail outlook válido de uma conta ativa.

@@ -5,3 +5,4 @@ dist/
 .vscode
 typeorm-commands.txt
 swagger-commands.txt
+uploads
