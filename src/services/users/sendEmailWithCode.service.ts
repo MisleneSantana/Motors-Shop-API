@@ -11,7 +11,6 @@ export const sendEmailWithCodeService = async (email: string) => {
 
   const resetUserCode = crypto.randomBytes(4).toString('hex');
   const nowInMinutes: any = new Date().getHours() * 60 + new Date().getMinutes();
-  console.log(nowInMinutes);
 
   await userRepo.save({
     ...user,
