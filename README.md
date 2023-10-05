@@ -41,7 +41,7 @@ Clone o projeto em sua máquina e instale as dependências com o comando:
 yarn
 
 # Instalação para npm
-npm run install
+npm i
 ```
 
 ## 3.1 Variáveis de ambiente e conexão com o banco de dados
