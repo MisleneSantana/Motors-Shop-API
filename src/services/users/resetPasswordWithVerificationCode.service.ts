@@ -11,15 +11,16 @@ export const resetPasswordWithVerificationCodeService = async (newPassword: stri
   if (!userFound) throw new AppError('Invalid code', 404);
 
   const nowInMinutes: any = new Date().getHours() * 60 + new Date().getMinutes();
-  if (nowInMinutes >= userFound.code_expire + 60) {
+  if (nowInMinutes >= userFound.code_expire + 30) {
     const user = userRepo.create({
       ...userFound,
+      password: userFound.password,
       reset_password: null,
       code_expire: null,
     });
 
     await userRepo.save(user);
-    throw new AppError('Code expired', 400);
+    return new AppError('Code expired', 400);
   }
 
   const user = userRepo.create({
