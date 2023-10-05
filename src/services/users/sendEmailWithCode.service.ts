@@ -10,10 +10,13 @@ export const sendEmailWithCodeService = async (email: string) => {
   if (!user) throw new AppError('User not found', 404);
 
   const resetUserCode = crypto.randomBytes(4).toString('hex');
+  const nowInMinutes: any = new Date().getHours() * 60 + new Date().getMinutes();
+  console.log(nowInMinutes);
 
   await userRepo.save({
     ...user,
     reset_password: resetUserCode,
+    code_expire: nowInMinutes,
   });
 
   const recoveryPassword = resetUserPasswordMailgen(user.name, email, resetUserCode);
