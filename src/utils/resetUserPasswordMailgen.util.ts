@@ -12,10 +12,11 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
   const emailContent = {
     body: {
       name: name,
-      intro: 'Estamos te enviando este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.',
+      intro:
+        'Estamos te enviando este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta. Insira este código para confirmar que é você.',
+      text: resetUserCode,
       action: {
-        instructions:
-          'Clique no botão abaixo para visualizar o código enviado pela nossa equipe e redefinir sua senha:',
+        instructions: 'Se você não solicitou este código, recomendamos que altere sua senha no botão abaixo:',
         button: {
           color: '#495057',
           text: 'Redefina sua senha',
@@ -23,7 +24,7 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
         },
       },
     },
-    outro: 'Se você não solicitou uma redefinição de senha, favor desconsiderar este e-mail.',
+    outro: 'Obrigada por nos ajudar a manter sua conta segura.',
   };
 
   const emailBody = mailGenerator.generate(emailContent);
