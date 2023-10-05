@@ -23,15 +23,15 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
           link: `http://localhost:5173/resetPassword/${resetUserCode}`,
         },
       },
+      outro: 'Obrigado(a) por nos ajudar a manter sua conta segura.',
     },
-    outro: 'Obrigada por nos ajudar a manter sua conta segura.',
   };
 
   const emailBody = mailGenerator.generate(emailContent);
 
   const emailTextTemplate = {
     to: email,
-    subject: `${name}, este é seu ccódigo ${resetUserCode}`,
+    subject: `${name}, este é seu código ${resetUserCode}`,
     text: emailBody,
   };
 
