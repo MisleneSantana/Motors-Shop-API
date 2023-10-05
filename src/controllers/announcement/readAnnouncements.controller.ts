@@ -4,6 +4,7 @@ import { readAnnouncementsService } from '../../services/announcements/readAnnou
 
 
 export const readAnnouncementsController = async (req: Request, res: Response): Promise<Response> => {
-  const announcements: TAnnouncementRead = await readAnnouncementsService();
+  const paginationOfObjects = res.locals.pagination;
+  const announcements: TAnnouncementRead = await readAnnouncementsService(paginationOfObjects);
   return res.status(200).json(announcements);
 };

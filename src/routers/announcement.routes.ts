@@ -14,6 +14,8 @@ import { validateSellerIsOwnerMiddleware } from '../middlewares/announcement/val
 import { readImagesByAnnouncementController } from '../controllers/announcement/readImagesByAnnouncement.service';
 import multer from 'multer';
 import { storage } from '../utils/multerConfig.util';
+import { paginationMiddleware } from '../middlewares/pagination.middleware';
+import { ordinationMiddleware } from '../middlewares/ordination.middleware';
 
 export const announcementRouter: Router = Router();
 
@@ -32,7 +34,7 @@ announcementRouter.post(
 
 //2. Listagem de todos os anúncios
 //2.1 Não requer proteção
-announcementRouter.get('', readAnnouncementsController);
+announcementRouter.get('', paginationMiddleware, ordinationMiddleware, readAnnouncementsController);
 
 //3. Listagem de um anúncio por id (announcementId)
 //3.1 Não requer proteção
