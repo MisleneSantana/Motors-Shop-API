@@ -95,6 +95,97 @@
       }
     },
 
+    "/users/resetPassword": {
+      "post": {
+        "summary": "Redefinição de senha do usuário (código de verificação)",
+        "description": "1.) Rota responsável por enviar um e-mail com um código único para redefinição de senha ao usuário. 1.1) Para receber este e-mail é necessário que o e-mail de cadastro do usuário seja um e-mail outlook válido.",
+        "tags": ["ForgotPassword"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPassword"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "email": "mi@mail.com"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "User not found"
+          },
+          "400": {
+            "description": "Error sending email"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ForgotPassword"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users/resetPassword/{code}": {
+      "patch": {
+        "summary": "Atualização da senha do usuário (código de verificação)",
+        "description": "Rota responsável por atualizar a senha do usuário através do código de verificação único recebido por e-mail (email de cadastro).",
+        "tags": ["ResetPassword"],
+        "parameters": [
+          {
+            "name": "code",
+            "in": "path",
+            "description": "Código de verificação recebido via e-mail",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPassword"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "password": "1234update"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "404": {
+            "description": "Invalid code"
+          },
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ResetPassword"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/users/{id}": {
       "get": {
         "summary": "Listagem de um usuário por ID",
@@ -806,6 +897,24 @@
         }
       },
 
+      "ForgotPassword": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+
+      "ResetPassword": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+
       "User": {
         "type": "object",
         "properties": {
@@ -833,9 +942,7 @@
           "password": {
             "type": "string"
           },
-          "reset_password": {
-            "type": "string"
-          },
+
           "address": {
             "type": "object",
             "properties": {

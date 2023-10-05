@@ -1,7 +1,7 @@
 import { AppError } from '../../errors/error';
 import { userRepo } from '../../repositories';
 
-export const resetPasswordService = async (password: string, code: string) => {
+export const resetPasswordWithVerificationCodeService = async (password: string, code: string) => {
   const userFound: any = await userRepo.findOne({
     where: {
       reset_password: code,

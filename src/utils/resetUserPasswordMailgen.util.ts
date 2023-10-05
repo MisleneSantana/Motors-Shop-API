@@ -4,7 +4,7 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
   const mailGenerator = new Mailgen({
     theme: 'default',
     product: {
-      name: 'Motors shop e-commerce',
+      name: 'Equipe Motors Shop',
       link: 'http://localhost:5173',
     },
   });
@@ -12,16 +12,18 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
   const emailContent = {
     body: {
       name: name,
-      intro: 'Redefinição de senha da conta do Motors shop e-commerce',
+      intro: 'Estamos te enviando este e-mail porque recebemos uma solicitação de redefinição de senha para sua conta.',
       action: {
-        instructions: 'Clique para resetar sua senha:',
+        instructions:
+          'Clique no botão abaixo para visualizar o código enviado pela nossa equipe e redefinir sua senha:',
         button: {
           color: '#495057',
-          text: 'Reset your password',
+          text: 'Redefina sua senha',
           link: `http://localhost:5173/resetPassword/${resetUserCode}`,
         },
       },
     },
+    outro: 'Se você não solicitou uma redefinição de senha, favor desconsiderar este e-mail.',
   };
 
   const emailBody = mailGenerator.generate(emailContent);

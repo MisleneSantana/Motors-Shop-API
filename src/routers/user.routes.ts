@@ -12,8 +12,8 @@ import { verifyUserIdExistsMiddleware } from '../middlewares/user/verifyUserIdEx
 import { validateTheUuidMiddleware } from '../middlewares/user/validateTheUuid.middleware';
 import { readUserByIdController } from '../controllers/user/readUserById.controller';
 import { deleteUserController } from '../controllers/user/deleteUser.controller';
-import { sendEmailRecoveryPasswordController } from '../controllers/user/sendEmailRecoveryPassword.controller';
-import { resetPasswordController } from '../controllers/user/resetPassword.controller';
+import { sendEmailWithCodeController } from '../controllers/user/sendEmailWithCode.controller';
+import { resetPasswordWithVerificationCodeController } from '../controllers/user/resetPasswordWithVerificationCode.controller';
 
 export const userRouter: Router = Router();
 
@@ -28,11 +28,11 @@ userRouter.post(
   createUserController
 );
 
-//5. Recuperar senha (e-mail de recuperação de senha):
-userRouter.post('/resetPassword/user', sendEmailRecoveryPasswordController);
+//5. Recuperar senha (e-mail com código para recuperação de senha):
+userRouter.post('/resetPassword', sendEmailWithCodeController);
 
 //6. Atualizar senha (código recebido por e-mail):
-userRouter.patch('/resetPassword/:code', resetPasswordController);
+userRouter.patch('/resetPassword/:code', resetPasswordWithVerificationCodeController);
 
 //2. Lista todos os usuários:
 userRouter.get('', readUsersController);
