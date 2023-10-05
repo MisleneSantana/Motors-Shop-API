@@ -4,7 +4,7 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
   const mailGenerator = new Mailgen({
     theme: 'default',
     product: {
-      name: 'Equipe Motors Shop',
+      name: 'Motors Shop',
       link: 'http://localhost:5173',
     },
   });
@@ -31,7 +31,7 @@ export const resetUserPasswordMailgen = (name: string, email: string, resetUserC
 
   const emailTextTemplate = {
     to: email,
-    subject: 'Código de redefinição de senha',
+    subject: `${name}, este é seu ccódigo ${resetUserCode}`,
     text: emailBody,
   };
 
