@@ -141,7 +141,7 @@
     "/users/resetPassword/{code}": {
       "patch": {
         "summary": "Atualização da senha do usuário (código de verificação)",
-        "description": "Rota responsável por atualizar a senha do usuário através do código de verificação único recebido por e-mail (email de cadastro).",
+        "description": "1.) Rota responsável por atualizar a senha do usuário através do código de verificação único recebido por e-mail (email de cadastro). 1.1) O código de verificação é válido por trinta minutos.",
         "tags": ["ResetPassword"],
         "parameters": [
           {
