@@ -1,18 +1,18 @@
 import { AppError } from '../../errors/error';
 import { userRepo } from '../../repositories';
 
-export const resetPasswordWithVerificationCodeService = async (password: string, code: string) => {
+export const resetPasswordWithVerificationCodeService = async (newPassword: string, code: string) => {
   const userFound: any = await userRepo.findOne({
     where: {
       reset_password: code,
     },
   });
 
-  if (!userFound) throw new AppError('User not found', 404);
+  if (!userFound) throw new AppError('Invalid code', 404);
 
   const user = userRepo.create({
     ...userFound,
-    password: password,
+    password: newPassword,
     reset_password: null,
   });
 

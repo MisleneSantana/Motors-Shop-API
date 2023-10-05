@@ -85,3 +85,14 @@ npm run dev
 Após conectar-se ao banco de dados e rodar o servidor, consulte a documentação completa da API em:
 
 https://localhost:3000/api-docs/
+
+# 6. Envio de e-mail com recuperação de senha
+
+Para utilizar as rotas de envio e atualização de e-mail, insira no arquivo **.env** as chaves com o formato abaixo:
+
+```.env
+SMTP_USER=email_outlook
+SMTP_PASS=password_outlook
+```
+
+E substitua as credenciais pelos seus dados. Lembrando que é necerrário um e-mail outlook válido.
