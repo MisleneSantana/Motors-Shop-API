@@ -21,36 +21,22 @@
     }
   ],
   "paths": {
-    "/users": {
+    "/login": {
       "post": {
-        "summary": "Criação de um usuário (usuário e endereço)",
-        "description": "1.) Rota responsável por cadastrar um novo usuário e o respectivo endereço deste usuário. 1.1) Sendo possível cria-lo apenas com o perfil de anunciante (seller) ou comprador (buyer).",
-        "tags": ["Users"],
+        "summary": "Login de um usuário",
+        "description": "Rota responsável por logar o usuário e gerar um token de autenticação e autorização",
+        "tags": ["Sessions"],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/User"
+                "$ref": "#/components/schemas/Login"
               },
               "examples": {
                 "user": {
                   "value": {
-                    "name": "Caio",
-                    "email": "caio@mail.com",
-                    "cpf": "55555555555",
-                    "phone_number": "111111111111",
-                    "birth_date": "1989/05/16",
-                    "description": "Vendedora de carros",
-                    "account_type": "seller",
-                    "password": "1234",
-                    "address": {
-                      "cep": "11111111",
-                      "state": "SP",
-                      "city": "SBCampo",
-                      "street": "Rua das Flores",
-                      "number": "1",
-                      "complement": "Loja"
-                    }
+                    "email": "mi@mail.com",
+                    "password": "1234"
                   }
                 }
               }
@@ -58,35 +44,16 @@
           }
         },
         "responses": {
-          "409": {
-            "description": "Email already registered"
+          "401": {
+            "description": "Invalid credentials"
           },
-          "201": {
-            "description": "Created",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      },
-
-      "get": {
-        "summary": "Listagem dos usuários",
-        "description": "Rota responsável por listar todos os usuários cadastrados",
-        "tags": ["Users"],
-        "responses": {
           "200": {
             "description": "OK",
             "content": {
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "$ref": "#/components/schemas/User"
+                  "$ref": "#/components/schemas/Login"
                 }
               }
             }
@@ -181,6 +148,80 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/ResetPassword"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "/users": {
+      "post": {
+        "summary": "Criação de um usuário (usuário e endereço)",
+        "description": "1.) Rota responsável por cadastrar um novo usuário e o respectivo endereço deste usuário. 1.1) Sendo possível cria-lo apenas com o perfil de anunciante (seller) ou comprador (buyer).",
+        "tags": ["Users"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/User"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "name": "Caio",
+                    "email": "caio@mail.com",
+                    "cpf": "55555555555",
+                    "phone_number": "111111111111",
+                    "birth_date": "1989/05/16",
+                    "description": "Vendedora de carros",
+                    "account_type": "seller",
+                    "password": "1234",
+                    "address": {
+                      "cep": "11111111",
+                      "state": "SP",
+                      "city": "SBCampo",
+                      "street": "Rua das Flores",
+                      "number": "1",
+                      "complement": "Loja"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "409": {
+            "description": "Email already registered"
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      },
+
+      "get": {
+        "summary": "Listagem dos usuários",
+        "description": "Rota responsável por listar todos os usuários cadastrados",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
                 }
               }
             }
@@ -345,47 +386,6 @@
                 "schema": {
                   "type": "object",
                   "$ref": "#/components/schemas/User"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-
-    "/login": {
-      "post": {
-        "summary": "Login de um usuário",
-        "description": "Rota responsável por logar o usuário e gerar um token de autenticação e autorização",
-        "tags": ["Sessions"],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/Login"
-              },
-              "examples": {
-                "user": {
-                  "value": {
-                    "email": "mi@mail.com",
-                    "password": "1234"
-                  }
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "401": {
-            "description": "Invalid credentials"
-          },
-          "200": {
-            "description": "OK",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "$ref": "#/components/schemas/Login"
                 }
               }
             }
@@ -702,6 +702,7 @@
         "summary": "Deleção da imagem de um anúncio",
         "description": "Rota responsável por deletar uma imagem de um anúncio específico",
         "tags": ["Announcements"],
+        "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
@@ -710,7 +711,7 @@
             "required": true
           },
           {
-            "name": "id",
+            "name": "imageId",
             "in": "path",
             "description": "ID da imagem a ser excluída",
             "required": true
