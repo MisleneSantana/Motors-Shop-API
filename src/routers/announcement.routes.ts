@@ -16,6 +16,7 @@ import multer from 'multer';
 import { storage } from '../utils/multerConfig.util';
 import { paginationMiddleware } from '../middlewares/pagination.middleware';
 import { ordinationMiddleware } from '../middlewares/ordination.middleware';
+import { destroyImageFromAnnouncementController } from '../controllers/announcement/destroyImageFromAnnouncement.controller';
 
 export const announcementRouter: Router = Router();
 
@@ -53,7 +54,15 @@ announcementRouter.patch(
 //7. Exclusão de um anúncio
 announcementRouter.delete('/:id', verifyTokenMiddleware, validateSellerIsOwnerMiddleware, deleteAnnouncementController);
 
-//8. Upload de imagens com Multer (não utilizado)
+//8. Exclui a imagem de um anúncio (announcementId, imageId)
+announcementRouter.delete(
+  '/:id/image/:imageId',
+  verifyTokenMiddleware,
+  validateSellerIsOwnerMiddleware,
+  destroyImageFromAnnouncementController
+);
+
+//9. Upload de imagens com Multer (não utilizado)
 const upload = multer({ storage: storage });
 announcementRouter.post('/upload', verifyTokenMiddleware, upload.array('images'), (req, res) => {
   return res.json(req.file?.filename);

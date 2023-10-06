@@ -697,6 +697,50 @@
       }
     },
 
+    "/announcements/{id}/image/{imageId}": {
+      "delete": {
+        "summary": "Deleção da imagem de um anúncio",
+        "description": "Rota responsável por deletar uma imagem de um anúncio específico",
+        "tags": ["Announcements"],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do anúncio",
+            "required": true
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID da imagem a ser excluída",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Missing bearer token"
+          },
+          "404": {
+            "description": "Image not found"
+          },
+          "403": {
+            "description": "Insufficient permission"
+          },
+          "204": {
+            "description": "No Content",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Announcement"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+
     "/comments/{id}": {
       "post": {
         "summary": "Criação de um comentário",
