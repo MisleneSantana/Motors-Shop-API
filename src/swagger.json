@@ -418,12 +418,13 @@
                     "table_price": 19000.0,
                     "price": 12000.0,
                     "description": "Em ótimo estado",
+                    "cover_image_url": "url cover image",
                     "images": [
                       {
-                        "image_url": "url da imagem"
+                        "image_url": "url image"
                       },
                       {
-                        "image_url": "url da imagem"
+                        "image_url": "url image"
                       }
                     ]
                   }
@@ -1000,6 +1001,9 @@
             "type": "number"
           },
           "description": {
+            "type": "string"
+          },
+          "cover_image_url": {
             "type": "string"
           },
           "images": {

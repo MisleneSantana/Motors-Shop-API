@@ -35,6 +35,9 @@ class Announcement {
   @Column({ type: 'text', nullable: true, default: null })
   description?: string | undefined | null;
 
+  @Column({ type: 'varchar', length: '280' })
+  cover_image_url: string;
+
   @Column({ default: true })
   announcement_is_active: boolean;
 

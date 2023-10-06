@@ -1,9 +1,8 @@
 import { Announcement } from '../../entities';
 import { AppError } from '../../errors/error';
-import { TAnnouncementUpdate } from '../../interfaces/announcement.interfaces';
 import { announcementRepo, imageRepo } from '../../repositories';
 
-export const updateAnnouncementService = async (announcementId: string, announcementData: TAnnouncementUpdate) => {
+export const updateAnnouncementService = async (announcementId: string, announcementData: Announcement) => {
   const oldAnnouncement: Announcement | null = await announcementRepo.findOne({
     where: { id: announcementId },
     relations: { images: true, user: true },
@@ -19,7 +18,9 @@ export const updateAnnouncementService = async (announcementId: string, announce
   });
   await announcementRepo.save(announcement);
 
-  for await (const image of announcementData.images!) {
+  const updatedImages = [...announcementData.images, ...oldAnnouncement.images];
+
+  for await (const image of updatedImages) {
     const imageUpdated = imageRepo.create({
       image_url: image.image_url!,
       announcement: announcement,

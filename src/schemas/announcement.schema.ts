@@ -20,6 +20,7 @@ export const announcementSchema = z.object({
     .default(() => 0)
     .or(z.string()),
   description: z.string().nullish(),
+  cover_image_url: z.string().max(280),
   announcement_is_active: z.boolean().default(true),
   createdAt: z.string().or(z.date()),
 });
@@ -71,6 +72,7 @@ export const announcementReadSchema = z
         name: z.string().max(50),
       })
       .optional(),
+    cover_image_url: z.string().max(280),
     images: z
       .object({
         id: z.string(),
