@@ -86,7 +86,7 @@ npm run dev
 
 Após conectar-se ao banco de dados e rodar o servidor, consulte a documentação completa da API em:
 
-https://localhost:3000/api-docs/
+http://localhost:3000/api-docs/
 
 # 6. Envio de e-mail com recuperação de senha
 
