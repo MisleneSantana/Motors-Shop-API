@@ -25,6 +25,7 @@
 - [Mailgen](https://www.npmjs.com/package/mailgen)
 - [uuid](https://ihateregex.io/expr/uuid/)
 - [draw.io](https://app.diagrams.net/)
+- [cors](https://www.npmjs.com/package/cors)
 
 ## 2. Diagrama ER
 
