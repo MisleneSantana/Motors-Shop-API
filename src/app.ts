@@ -8,10 +8,15 @@ import { userRouter } from './routers/user.routes';
 import { sessionLoginRouter } from './routers/session.routes';
 import { announcementRouter } from './routers/announcement.routes';
 import { commentRouter } from './routers/comment.routes';
+import cors from 'cors';
 
 const app: Application = express();
-
 app.use(express.json());
+app.use(
+  cors({
+    origin: ' http://localhost:5174/',
+  })
+);
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs)); // Esta linha se refere ao middleware da DOC.
 
