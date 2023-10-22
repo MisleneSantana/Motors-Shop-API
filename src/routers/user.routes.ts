@@ -14,6 +14,8 @@ import { readUserByIdController } from '../controllers/user/readUserById.control
 import { deleteUserController } from '../controllers/user/deleteUser.controller';
 import { sendEmailWithCodeController } from '../controllers/user/sendEmailWithCode.controller';
 import { resetPasswordWithVerificationCodeController } from '../controllers/user/resetPasswordWithVerificationCode.controller';
+import { readUserLoggedController } from '../controllers/user/readUserLogged.controller';
+import { verifyAuthMiddleware } from '../middlewares/user/verifyAuth.middleware';
 
 export const userRouter: Router = Router();
 
@@ -34,6 +36,9 @@ userRouter.patch('/resetPassword/:code', resetPasswordWithVerificationCodeContro
 
 //4. Listagem de todos os usuários
 userRouter.get('', readUsersController);
+
+//4.1 Leitura do usuário logado
+userRouter.get('/logged', verifyAuthMiddleware, readUserLoggedController);
 
 userRouter.use('/:id', verifyUserIdExistsMiddleware);
 
