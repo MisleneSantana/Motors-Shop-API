@@ -51,33 +51,35 @@ export const announcementReturnSchema = announcementSchema.extend({
 
 export const announcementUpdateSchema = announcementCreateSchema.partial();
 
-export const announcementReadSchema = z
-  .object({
-    id: z.string(),
-    createdAt: z.string().or(z.date()),
-    announcement_is_active: z.boolean().default(false),
-    brand: z.string().max(15),
-    model: z.string().max(20),
-    description: z.string().nullish(),
-    km: z.number().int().positive(),
-    year: z.string().max(4),
-    price: z
-      .number()
-      .positive()
-      .default(() => 0)
-      .or(z.string()),
-    user: z
-      .object({
-        id: z.string(),
-        name: z.string().max(50),
-      })
-      .optional(),
-    cover_image_url: z.string().max(280),
-    images: z
-      .object({
-        id: z.string(),
-        image_url: z.string().max(280),
-      })
-      .array(),
-  })
-  .array();
+// export const announcementReadSchema = z
+//   .object({
+//     id: z.string(),
+//     createdAt: z.string().or(z.date()),
+//     announcement_is_active: z.boolean().default(false),
+//     brand: z.string().max(15),
+//     model: z.string().max(20),
+//     description: z.string().nullish(),
+//     km: z.number().int().positive(),
+//     year: z.string().max(4),
+//     price: z
+//       .number()
+//       .positive()
+//       .default(() => 0)
+//       .or(z.string()),
+//     user: z
+//       .object({
+//         id: z.string(),
+//         name: z.string().max(50),
+//       })
+//       .optional(),
+//     cover_image_url: z.string().max(280),
+//     images: z
+//       .object({
+//         id: z.string(),
+//         image_url: z.string().max(280),
+//       })
+//       .array(),
+//   })
+//   .array();
+
+export const announcementReadSchema = announcementReturnSchema.array();
