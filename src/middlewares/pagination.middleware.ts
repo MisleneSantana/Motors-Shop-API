@@ -5,7 +5,7 @@ export const paginationMiddleware = (req: Request, res: Response, next: NextFunc
   const queryPerPage: number = Number(req.query.perPage);
 
   const page: number = queryPage && queryPage > 1 ? queryPage : 1;
-  const perPage: number = queryPerPage && queryPerPage <= 8 && queryPerPage > 0 ? queryPerPage : 8;
+  const perPage: number = queryPerPage && queryPerPage <= 16 && queryPerPage > 16 ? queryPerPage : 16;
 
   const baseUrl: string = `http://localhost:3000/announcements`;
   let prevPage: string | null = `${baseUrl}?page=${page - 1}&perPage=${perPage}`;
